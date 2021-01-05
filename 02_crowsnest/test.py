@@ -12,7 +12,9 @@ consonant_words = [
     'zebrafish'
 ]
 vowel_words = ['aviso', 'eel', 'iceberg', 'octopus', 'upbound']
-template = 'Ahoy, Captain, {} {} off the larboard bow!'
+larboard = 'larboard'
+sideboard = 'sideboard'
+template = 'Ahoy, Captain, {} {} off the {} bow!'
 
 
 # --------------------------------------------------
@@ -38,7 +40,7 @@ def test_consonant():
 
     for word in consonant_words:
         out = getoutput(f'{prg} {word}')
-        assert out.strip() == template.format('a', word)
+        assert out.strip() == template.format('a', word, larboard)
 
 
 # --------------------------------------------------
@@ -46,8 +48,17 @@ def test_consonant_upper():
     """brigantine -> a Brigatine"""
 
     for word in consonant_words:
+        out = getoutput(f'{prg} {word.upper()}')
+        assert out.strip() == template.format('a', word.upper(), larboard)
+
+
+# --------------------------------------------------
+def test_consonant_match_upper():
+    """brigantine -> a Brigatine"""
+
+    for word in consonant_words:
         out = getoutput(f'{prg} {word.title()}')
-        assert out.strip() == template.format('a', word.title())
+        assert out.strip() == template.format('a'.title(), word.title(), larboard)
 
 
 # --------------------------------------------------
@@ -56,7 +67,7 @@ def test_vowel():
 
     for word in vowel_words:
         out = getoutput(f'{prg} {word}')
-        assert out.strip() == template.format('an', word)
+        assert out.strip() == template.format('an', word, larboard)
 
 
 # --------------------------------------------------
@@ -65,4 +76,22 @@ def test_vowel_upper():
 
     for word in vowel_words:
         out = getoutput(f'{prg} {word.upper()}')
-        assert out.strip() == template.format('an', word.upper())
+        assert out.strip() == template.format('an', word.upper(), larboard)
+
+
+# --------------------------------------------------
+def test_vowel_match_upper():
+    """octopus -> an Octopus"""
+
+    for word in vowel_words:
+        out = getoutput(f'{prg} {word.title()}')
+        assert out.strip() == template.format('an'.title(), word.title(), larboard)
+
+
+# --------------------------------------------------
+def test_sideboard_vowel():
+    """octopus -> an Octopus"""
+
+    for word in vowel_words:
+        out = getoutput(f'{prg} {word} -s {sideboard}')
+        assert out.strip() == template.format('an', word, sideboard)
