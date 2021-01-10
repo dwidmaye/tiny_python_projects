@@ -32,7 +32,7 @@ def main():
 
     encoded_text = ""
     for char in text:
-        encoded_text += char.replace(char, encoding.get(char, char))
+        encoded_text += encoding.get(char, char)
 
     print(f'{encoded_text}')
 
